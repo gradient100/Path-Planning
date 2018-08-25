@@ -184,52 +184,6 @@ vector <double> car2map(double car_x, double car_y, double ref_x, double ref_y, 
 	return {map_x, map_y};
 }
 
-// bool getSpeed(string direc, int lane_now, double s, auto sensor_fusion)
-// {
-// 	int new_lane;
-// 	if (direc=="left")
-// 		new_lane = lane_now-1;
-// 	if (direc=="right")
-// 		new_lane = lane_now+1;
-// 	if (new_lane < 0 || new_lane > 2)
-// 		return -1;
-
-// 	bool lane_clear = true;
-// 	double lane_speed=-1;
-// 	double next_s = s+1000;
-// 	for (int i = 0; i < sensor_fusion.size(); i++)
-// 	{
-// 		double d = sensor_fusion[i][6];
-// 		double next_s;
-
-//   		if (2+4*new_lane-2 < d && d < 2+4*new_lane+2)
-//   		{
-//   			double other_vx = sensor_fusion[i][3];
-//   			double other_vy = sensor_fusion[i][4];
-//   			double other_speed = sqrt(other_vx*other_vx+other_vy*other_vy);
-//   			double other_s = sensor_fusion[i][5];
-//   			double other_s_future = other_s + 0.02*other_speed*prev_size;
-  			
-//   			if (s-50 < other_s && other_s < s+50)
-//   				lane_clear = false;
-
-//   			if (other_s > s+50 && other_s < next_s)
-//   			{
-//   				next_s = other_s;
-//   				lane_speed = other_speed;
-//   			}
-
-//   		}
-// 	}	
-// 	if (lane_clear)
-// 		return lane_speed;
-// 	else 
-// 		return -1;
-
-//}
-
-
-
 
 int main() {
   uWS::Hub h;
@@ -355,6 +309,7 @@ int main() {
           		if (other_lane == lane_left) // see if there are any cars in left change lane area
           		{
           			if (car_s-30 < other_s && other_s < car_s+40)
+  					//if (s_future-10 < other_s_future && other_s < car_s+40)
   						lane_clear_left = false;
   					if (other_s > car_s+40 && other_s < next_s_left) // record speed of left leading car
 	  				{
@@ -365,6 +320,8 @@ int main() {
   				if (other_lane == lane_right) // see if there are any cars in right change lane
           		{
           			if (car_s-30 < other_s && other_s < car_s+40)
+          			//if (s_future-10 < other_s_future && other_s < car_s+40)
+  						lane_clear_left = false;
   						lane_clear_right = false;
   					if (other_s > car_s+40 && other_s < next_s_right) // record speed of right leading car
 	  				{
@@ -528,19 +485,7 @@ int main() {
 
 
           	}	
-          	/*
-          	double dist_inc = 0.5;
-		    for(int i = 0; i < 50; i++)
-		    {
-		          //next_x_vals.push_back(car_x+(dist_inc*i)*cos(deg2rad(car_yaw)));
-		          //next_y_vals.push_back(car_y+(dist_inc*i)*sin(deg2rad(car_yaw)));
-		    	double next_s = car_s+(i+1)*dist_inc;
-		    	double next_d = car_d;
-		    	vector <double> next_xy = getXY(next_s, next_d, map_waypoints_s, map_waypoints_x, map_waypoints_y);
-		    	next_x_vals.push_back(next_xy[0]);
-		    	next_y_vals.push_back(next_xy[1]);
-		    }
-		    */
+          	
 
 		// end calculation of next x,y points
 
